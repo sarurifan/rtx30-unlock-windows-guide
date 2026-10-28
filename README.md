@@ -90,3 +90,12 @@ pwsh internal-boot/Headless.ps1 -RestoreWindowsFirst
 - 每次启动覆盖写 PROM.BIN/IMGnn.BIN，采集多次要手动归档
 - 冷启动产物：AUTO%06d/REPORT.TXT（headless 执行日志）、DIAGnn.TXT（探测日志）
 - 成功判据：REPORT.TXT 尾部 `SS0=88888888 SS1=00000008` + `transaction result=0 containment=0` + WPR2 写保护已上
+
+## 产物共用性（同款联想机器）
+
+自动方案的档案（PROFILE.BIN / machine-profile 常量）绑定：PCI/子系统 ID、BAR0/根端口、驱动指纹、**PROM SHA256（每张卡 vBIOS 内容哈希）**。
+
+- 同型号主板 + 同型号卡 + **同一家刷的 BIOS（PROM 哈希一致）** → 产物可共用
+- PROM 哈希不同 → 档案校验安全拒跑（不碰硬件，不会损坏），需重新采集
+- 探测阶段零写入，同款机器各跑两次冷启动最稳（几分钟）
+
