@@ -99,3 +99,14 @@ pwsh internal-boot/Headless.ps1 -RestoreWindowsFirst
 - PROM 哈希不同 → 档案校验安全拒跑（不碰硬件，不会损坏），需重新采集
 - 探测阶段零写入，同款机器各跑两次冷启动最稳（几分钟）
 
+
+## 本仓库自带工具
+
+| 工具 | 用途 | 用法 |
+|---|---|---|
+| `tools/bench_gpu.py` | GEMM 跑分（视频同款） | `python bench_gpu.py` |
+| `tools/verify_unlock.ps1` | 验证解锁是否生效 | `pwsh verify_unlock.ps1` |
+| `tools/check_profile_compat.ps1` | 检查你的 PROFILE.BIN 能否用已发布档案 | `pwsh check_profile_compat.ps1 -ProfileBin <路径>` |
+
+已发布档案基准：`profiles/lenovo-rn7000-3080-20g/PROM.SHA256`（联想刃7000 + 3080 20G 实测机）。
+同款机器先跑探测拿自己的 PROFILE.BIN，用 check 工具比对 PROM SHA256，一致即可直接用本机档案产物。
